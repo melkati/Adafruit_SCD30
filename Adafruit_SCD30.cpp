@@ -180,6 +180,15 @@ bool Adafruit_SCD30::startContinuousMeasurement(uint16_t pressure) {
 }
 
 /**
+ * @brief Stop the SCD30 from taking measurements
+ *
+ * @return true: success false: failure
+ */
+bool Adafruit_SCD30::stopContinuousMeasurement(void) {
+  return sendCommand(SCD30_CMD_STOP_MEASUREMENTS);
+}
+
+/**
  * @brief Read the current ambient pressure offset
  *
  * @return uint16_t  current ambient pressure offset in millibar (mBar)

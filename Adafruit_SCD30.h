@@ -113,6 +113,7 @@ public:
   bool selfCalibrationEnabled(bool);
 
   bool startContinuousMeasurement(uint16_t pressure = 0);
+  bool stopContinuousMeasurement(void);
   uint16_t getAmbientPressureOffset(void);
 
   bool setAltitudeOffset(uint16_t altitude);
