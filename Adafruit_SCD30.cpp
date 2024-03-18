@@ -283,12 +283,14 @@ bool Adafruit_SCD30::read(void) {
   buffer[1] = SCD30_CMD_READ_MEASUREMENT & 0xFF;
 
   if (!i2c_dev->write(buffer, 2)) {
+    Serial.println("[Adafruit_SCD30::read()] Error: no response from sensor");
     return false;
   }
 
   delay(4); // delay between write and read specified by the datasheet
 
   if (!i2c_dev->read(buffer, 18)) {
+    Serial.println("[Adafruit_SCD30::read()] Error: no response from sensor");
     return false;
   }
 
@@ -296,6 +298,7 @@ bool Adafruit_SCD30::read(void) {
   for (uint8_t i = 0; i < 18; i += 3) {
     if (crc8(buffer + i, 2) != buffer[i + 2]) {
       // we got a bad CRC, fail out
+      Serial.println("[Adafruit_SCD30::read()] Error: CRC mismatch");
       return false;
     }
   }
@@ -329,6 +332,8 @@ bool Adafruit_SCD30::read(void) {
   memcpy(&CO2, &co2, sizeof(CO2));
   memcpy(&temperature, &temp, sizeof(temperature));
   memcpy(&relative_humidity, &hum, sizeof(relative_humidity));
+
+  Serial.println("[Adafruit_SCD30::read()] CO2: " + String(CO2) + " ppm, temperature: " + String(temperature) + " C, humidity: " + String(relative_humidity) + " %");
 
   return true;
 }
